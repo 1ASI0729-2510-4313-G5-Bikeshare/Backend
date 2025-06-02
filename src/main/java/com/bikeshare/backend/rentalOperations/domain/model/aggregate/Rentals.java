@@ -1,35 +1,39 @@
-package com.bikeshare.backend.userManagement.domain.model.aggregate;
+package com.bikeshare.backend.rentalOperations.domain.model.aggregate;
+
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import java.text.DecimalFormat;
 import java.util.Date;
 
 @Entity
 @Getter
-public class Users {
+public class Rentals {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    private Long rental_id;
 
     @Column(nullable = false)
-    private  String email;
+    private  Integer bike_id;
 
     @Column(nullable = false)
-    private String password_Hash;
-
-    @Column(nullable = false)
-    private String full_Name;
-
-    @Column(nullable = false)
-    private Long role_id;
+    private Integer client_id;
 
     @CreatedDate
-    private Date created_At;
+    private Date start_time;
 
     @LastModifiedDate
-    private Date updated_At;
+    private Date end_time;
 
+    @Column(nullable = false)
+    private DecimalFormat price;
+
+    @CreatedDate
+    private Date created_at;
+
+    @LastModifiedDate
+    private Date updated_at;
 }

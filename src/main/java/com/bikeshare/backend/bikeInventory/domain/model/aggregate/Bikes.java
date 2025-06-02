@@ -1,4 +1,4 @@
-package com.bikeshare.backend.userManagement.domain.model.aggregate;
+package com.bikeshare.backend.bikeInventory.domain.model.aggregate;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -9,27 +9,32 @@ import java.util.Date;
 
 @Entity
 @Getter
-public class Users {
+public class Bikes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    private Long bike_id;
 
     @Column(nullable = false)
-    private  String email;
+    private Long owner_id;
 
     @Column(nullable = false)
-    private String password_Hash;
+    private String model;
 
     @Column(nullable = false)
-    private String full_Name;
+    private Integer type_id;
 
     @Column(nullable = false)
-    private Long role_id;
+    private Integer status_id;
+
+    @Column(nullable = false)
+    private Double latitude;
+
+    @Column(nullable = false)
+    private Double longitude;
 
     @CreatedDate
-    private Date created_At;
+    private Date created_at;
 
     @LastModifiedDate
-    private Date updated_At;
-
+    private Date updated_at;
 }

@@ -1,35 +1,34 @@
-package com.bikeshare.backend.userManagement.domain.model.aggregate;
+package com.bikeshare.backend.lenderManagement.domain.model.aggregate;
+
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import java.text.DecimalFormat;
 import java.util.Date;
 
 @Entity
 @Getter
-public class Users {
+public class LenderProfiles {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    private Long lender_id;
 
     @Column(nullable = false)
-    private  String email;
+    private String bio;
 
     @Column(nullable = false)
-    private String password_Hash;
+    private Double total_earnings;
 
     @Column(nullable = false)
-    private String full_Name;
-
-    @Column(nullable = false)
-    private Long role_id;
+    private Float rating;
 
     @CreatedDate
-    private Date created_At;
+    private Date createdAt;
 
     @LastModifiedDate
-    private Date updated_At;
+    private Date updatedAt;
 
 }
