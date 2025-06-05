@@ -1,5 +1,6 @@
 package com.bikeshare.backend.userManagement.domain.model.aggregate;
 
+import com.bikeshare.backend.userManagement.domain.model.commands.CreateUserRolesCommand;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -12,8 +13,14 @@ public class UserRoles {
     @Column(nullable = false)
     private Long role_id;
 
-    @Column(nullable = false)
-    private String role_name;
+    @Column(name = "role_name",nullable = false)
+    private String roleName;
+
+    protected UserRoles() {}
+
+    public UserRoles(CreateUserRolesCommand command) {
+        this.roleName = command.role_name();
+    }
 
 }
 

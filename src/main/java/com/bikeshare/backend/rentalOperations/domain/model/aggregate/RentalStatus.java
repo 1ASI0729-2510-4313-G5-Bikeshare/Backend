@@ -9,7 +9,7 @@ import lombok.Getter;
 public class RentalStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer status_id;
+    private Long status_id;
 
     @Column(nullable = false)
     private String status_name;

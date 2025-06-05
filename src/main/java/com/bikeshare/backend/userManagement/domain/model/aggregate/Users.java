@@ -23,8 +23,9 @@ public class Users {
     @Column(nullable = false)
     private String full_Name;
 
-    @Column(nullable = false)
-    private Long role_id;
+    @ManyToOne(fetch = FetchType.LAZY)//Many users can have the same role
+    @JoinColumn(name = "role_id", nullable = false)
+    private UserRoles role;
 
     @CreatedDate
     private Date created_At;
