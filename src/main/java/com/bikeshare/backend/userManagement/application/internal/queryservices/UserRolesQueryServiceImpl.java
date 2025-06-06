@@ -26,6 +26,7 @@ public class UserRolesQueryServiceImpl implements UserRolesQueryService {
 
     @Override
     public List<UserRoles> handle(GetAllUserRolesQuery query) {
+
         return this.userRolesRepository.findAll();
     }
 }

@@ -1,5 +1,6 @@
 package com.bikeshare.backend.userManagement.domain.model.aggregate;
 
+import com.bikeshare.backend.userManagement.domain.model.commands.CreateUsersCommand;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
@@ -18,12 +19,12 @@ public class Users {
     private  String email;
 
     @Column(nullable = false)
-    private String password_Hash;
+    private String password_hash;
 
     @Column(nullable = false)
-    private String full_Name;
+    private String full_name;
 
-    @ManyToOne(fetch = FetchType.LAZY)//Many users can have the same role
+    @ManyToOne(fetch = FetchType.EAGER)//Many users can have the same role
     @JoinColumn(name = "role_id", nullable = false)
     private UserRoles role;
 
@@ -32,5 +33,14 @@ public class Users {
 
     @LastModifiedDate
     private Date updated_At;
+
+    protected Users() {}
+
+    public Users(CreateUsersCommand command) {
+        this.email= command.email();
+        this.password_hash = command.password_hash();
+        this.full_name= command.full_name();
+        this.role =command.role();
+    }
 
 }
