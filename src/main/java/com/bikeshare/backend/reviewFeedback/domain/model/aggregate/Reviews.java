@@ -1,8 +1,12 @@
 package com.bikeshare.backend.reviewFeedback.domain.model.aggregate;
 
+import com.bikeshare.backend.reviewFeedback.domain.model.commands.CreateReviewsCommand;
+import com.bikeshare.backend.userManagement.domain.model.aggregate.Users;
 import jakarta.persistence.*;
 import lombok.Getter;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.util.Date;
 
@@ -11,13 +15,15 @@ import java.util.Date;
 public class Reviews {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long review_id;
+    private Long reviewId;
 
-    @Column(nullable = false)
-    private Integer reviewer_id;
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name ="reviewerId",nullable = false)
+    private Users reviewerId;
 
-    @Column(nullable = false)
-    private Integer target_user_id;
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "targetUserId", nullable = false)
+    private Users targetUserId;
 
     @Column(nullable = false)
     private Integer rating;
@@ -28,4 +34,16 @@ public class Reviews {
     @Column(nullable = false)
     @CreatedDate
     private Date createdAt;
+
+    @LastModifiedDate
+    private Date updatedAt;
+
+    protected Reviews() {};
+
+    public Reviews(CreateReviewsCommand command){
+        this.reviewerId = command.reviewerId();
+        this.targetUserId = command.targetUserId();
+        this.rating = command.rating();
+        this.comment = command.comment();
+    }
 }
