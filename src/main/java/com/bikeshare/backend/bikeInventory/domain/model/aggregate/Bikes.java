@@ -14,7 +14,7 @@ import java.util.Date;
 public class Bikes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long bike_id;
+    private Long bikeId;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ownerId", nullable = false, updatable = true, insertable = true)
