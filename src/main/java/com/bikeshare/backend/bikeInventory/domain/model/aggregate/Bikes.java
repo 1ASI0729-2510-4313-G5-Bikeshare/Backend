@@ -1,5 +1,6 @@
 package com.bikeshare.backend.bikeInventory.domain.model.aggregate;
 
+import com.bikeshare.backend.bikeInventory.domain.model.commands.CreateBikesCommand;
 import com.bikeshare.backend.userManagement.domain.model.aggregate.Users;
 import jakarta.persistence.*;
 import lombok.Getter;
