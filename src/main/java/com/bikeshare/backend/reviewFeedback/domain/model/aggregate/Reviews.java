@@ -18,11 +18,11 @@ public class Reviews {
     private Long reviewId;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name ="reviewerId",nullable = false)
+    @JoinColumn(name ="reviewer_id",nullable = false, insertable = true, updatable = true)
     private Users reviewerId;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "targetUserId", nullable = false)
+    @JoinColumn(name = "target_user_id", nullable = false, insertable = true, updatable = true)
     private Users targetUserId;
 
     @Column(nullable = false)
@@ -31,7 +31,6 @@ public class Reviews {
     @Column(nullable = false)
     private String comment;
 
-    @Column(nullable = false)
     @CreatedDate
     private Date createdAt;
 

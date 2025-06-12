@@ -11,5 +11,5 @@ import java.util.Optional;
 public interface UserRolesQueryService {
     Optional<UserRoles> handle(GetUserRolesByIdQuery query);
 
-    List<UserRoles> handle(GetAllReviewsQuery query);
+    List<UserRoles> handle(GetAllUserRolesQuery query);
 }

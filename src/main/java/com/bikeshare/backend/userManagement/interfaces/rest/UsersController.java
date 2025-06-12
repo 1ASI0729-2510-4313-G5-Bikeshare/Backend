@@ -46,7 +46,7 @@ public class UsersController {
     @PostMapping
     @Operation(
             summary = "Create a user",
-            description = "Creates a user the provided data"
+            description = "Creates a user with the provided data"
     )
     @ApiResponses(
             value = {

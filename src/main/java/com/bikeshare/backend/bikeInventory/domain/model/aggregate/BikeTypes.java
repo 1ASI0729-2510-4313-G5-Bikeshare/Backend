@@ -1,5 +1,6 @@
 package com.bikeshare.backend.bikeInventory.domain.model.aggregate;
 
+import com.bikeshare.backend.bikeInventory.domain.model.commands.CreateBikeTypesCommand;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
@@ -12,10 +13,15 @@ import java.util.Date;
 public class BikeTypes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long type_id;
+    private Long typeId;
 
     @Column(nullable = false)
-    private  String type_name;
+    private  String typeName;
 
+    protected BikeTypes() {};
+
+    public BikeTypes(CreateBikeTypesCommand command) {
+        this.typeName = command.typeName();
+    }
 
 }

@@ -17,7 +17,6 @@ public class GeoZones {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
     @CreatedDate
     private Date created_at;
 }

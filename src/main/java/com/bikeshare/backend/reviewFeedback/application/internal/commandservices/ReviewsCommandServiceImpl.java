@@ -5,9 +5,11 @@ import com.bikeshare.backend.reviewFeedback.domain.model.commands.CreateReviewsC
 import com.bikeshare.backend.reviewFeedback.domain.services.ReviewsCommandService;
 import com.bikeshare.backend.reviewFeedback.infrastructure.persistence.jpa.ReviewsRepository;
 import com.bikeshare.backend.reviewFeedback.interfaces.rest.resources.ReviewsResource;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class ReviewsCommandServiceImpl implements ReviewsCommandService {
   private final ReviewsRepository reviewsRepository;
 

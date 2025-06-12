@@ -1,6 +1,8 @@
 package com.bikeshare.backend.notification.domain.model.aggregate;
 
 
+import com.bikeshare.backend.notification.domain.model.commands.CreateNotificationCommand;
+import com.bikeshare.backend.userManagement.domain.model.aggregate.Users;
 import jakarta.persistence.*;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.Getter;
@@ -13,17 +15,27 @@ import java.util.Date;
 public class Notifications {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long notification_id;
+    private Long notificationId;
 
-    @Column(nullable = false)
-    private Integer user_id;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private Users userId;
 
     @Column(nullable = false)
     private String message;
 
-    @Column(nullable = false)
-    private Integer type_id;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "typeId",nullable = false)
+    private NotificationsType typeId;
 
     @CreatedDate
     private Date created_at;
+
+    protected Notifications() {}
+
+    public Notifications(CreateNotificationCommand command){
+        this.userId = command.userId();
+        this.message = command.message();
+        this.typeId = command.typeId();
+    }
 }

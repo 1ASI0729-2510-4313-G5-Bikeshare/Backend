@@ -1,5 +1,6 @@
 package com.bikeshare.backend.bikeInventory.domain.model.aggregate;
 
+import com.bikeshare.backend.bikeInventory.domain.model.commands.CreateBikeStatusCommand;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -8,8 +9,14 @@ import lombok.Getter;
 public class BikeStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long status_id;
+    private Long statusId;
 
     @Column(nullable = false)
-    private String status_name;
+    private String statusName;
+
+    private BikeStatus() {};
+
+    public BikeStatus(CreateBikeStatusCommand command) {
+        this.statusName = command.statusName();
+    }
 }

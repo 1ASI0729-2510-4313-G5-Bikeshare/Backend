@@ -1,5 +1,6 @@
 package com.bikeshare.backend.userManagement.application.internal.queryservices;
 
+import com.bikeshare.backend.reviewFeedback.domain.model.queries.GetAllReviewsQuery;
 import com.bikeshare.backend.userManagement.domain.model.aggregate.UserRoles;
 import com.bikeshare.backend.userManagement.domain.model.queries.GetAllUserRolesQuery;
 import com.bikeshare.backend.userManagement.domain.model.queries.GetUserRolesByIdQuery;
