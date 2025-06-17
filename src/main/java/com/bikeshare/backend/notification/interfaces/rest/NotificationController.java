@@ -91,7 +91,7 @@ public class NotificationController {
                 source -> ResponseEntity.ok(NotificationResourceFromEntityAssembler.toResourceFromEntity(source))
         ).orElseGet(() -> ResponseEntity.notFound().build());
     }
-
+    //Pago confirmado,
     @GetMapping("/{userId}/{message}/{typeId}")
     @Operation(
             summary = "Get a users data by UserId, Message and TypeId",

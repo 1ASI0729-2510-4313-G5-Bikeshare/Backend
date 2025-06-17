@@ -9,7 +9,9 @@ import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
+@Configuration
 public class OpenApiConfiguration {
 
     //Properties
@@ -17,10 +19,10 @@ public class OpenApiConfiguration {
     @Value("Bike Share Platform")
     String applicationName;
 
-    @Value("@project.description@")
+    @Value("Bike Renting Platform")
     String applicationDescription;
 
-    @Value("@project.version@")
+    @Value("v2.0")
     String applicationVersion;
 
     //Methods
