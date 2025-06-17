@@ -105,7 +105,6 @@ public class UsersController {
     }
 
 
-
     @GetMapping
     public ResponseEntity<List<UsersResource>> getUsers() {
         var users= usersQueryService.handle(new GetAllUsersQuery());

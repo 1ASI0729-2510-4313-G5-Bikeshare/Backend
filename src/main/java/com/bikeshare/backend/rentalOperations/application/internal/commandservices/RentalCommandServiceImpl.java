@@ -30,4 +30,14 @@ public class RentalCommandServiceImpl implements RentalCommandService {
 
     }
 
+    @Override
+    public boolean deleteRental(Long rentalId) {
+        Optional<Rentals> rentalsOptional = rentalsRepository.findById(rentalId);
+        if(rentalsOptional.isPresent()){
+            rentalsRepository.delete(rentalsOptional.get());
+            return true;
+        }
+        return false;
+    }
+
 }

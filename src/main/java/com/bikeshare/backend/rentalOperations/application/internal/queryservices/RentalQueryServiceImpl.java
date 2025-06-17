@@ -3,7 +3,7 @@ package com.bikeshare.backend.rentalOperations.application.internal.queryservice
 import com.bikeshare.backend.rentalOperations.domain.model.aggregate.Rentals;
 import com.bikeshare.backend.rentalOperations.domain.model.queries.GetAllRentalsQuery;
 import com.bikeshare.backend.rentalOperations.domain.model.queries.GetRentalByIdQuery;
-import com.bikeshare.backend.rentalOperations.domain.model.queries.GetRentalsByBikeIdClientIdAndStartTime;
+import com.bikeshare.backend.rentalOperations.domain.model.queries.GetRentalsByClientEmail;
 import com.bikeshare.backend.rentalOperations.domain.services.RentalQueryService;
 import com.bikeshare.backend.rentalOperations.infrastructure.persistence.jpa.RentalsRepository;
 import org.springframework.stereotype.Service;
@@ -26,8 +26,8 @@ public class RentalQueryServiceImpl implements RentalQueryService {
     }
 
     @Override
-    public Optional<Rentals> handle(GetRentalsByBikeIdClientIdAndStartTime query) {
-        return rentalsRepository.findByBikeId_BikeIdAndClientId_UserIdAndStartTime(query.bikeId(), query.clientId(), query.startTime());
+    public List<Rentals> handle(GetRentalsByClientEmail query) {
+        return rentalsRepository.findByClientId_Email(query.email());
     }
 
     @Override

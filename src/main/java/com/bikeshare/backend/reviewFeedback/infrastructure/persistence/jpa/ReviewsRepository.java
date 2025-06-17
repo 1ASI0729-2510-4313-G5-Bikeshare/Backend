@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface ReviewsRepository extends JpaRepository<Reviews, Long> {
 
     //Used for GETS
-    Optional<Reviews> findByReviewerId_UserIdAndTargetUserId_UserId(Long reviewerId, Long targetUserId);
+    List<Reviews> findByTargetUserId_Email(String email);
     List<Reviews> findByReviewerId_UserId(Long reviewId);
 
     //To verify inside the code itself

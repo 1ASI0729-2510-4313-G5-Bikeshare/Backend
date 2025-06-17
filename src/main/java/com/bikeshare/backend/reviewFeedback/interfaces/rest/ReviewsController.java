@@ -4,25 +4,22 @@ package com.bikeshare.backend.reviewFeedback.interfaces.rest;
 import com.bikeshare.backend.reviewFeedback.domain.model.aggregate.Reviews;
 import com.bikeshare.backend.reviewFeedback.domain.model.queries.GetAllReviewsQuery;
 import com.bikeshare.backend.reviewFeedback.domain.model.queries.GetReviewsByIdQuery;
-import com.bikeshare.backend.reviewFeedback.domain.model.queries.GetReviewsByReviewerIdAndTargetUserIdQuery;
+import com.bikeshare.backend.reviewFeedback.domain.model.queries.GetReviewsByTargetUserEmail;
 import com.bikeshare.backend.reviewFeedback.domain.services.ReviewsCommandService;
 import com.bikeshare.backend.reviewFeedback.domain.services.ReviewsQueryService;
-import com.bikeshare.backend.reviewFeedback.infrastructure.persistence.jpa.ReviewsRepository;
 import com.bikeshare.backend.reviewFeedback.interfaces.rest.resources.CreateReviewsResource;
 import com.bikeshare.backend.reviewFeedback.interfaces.rest.resources.ReviewsResource;
 import com.bikeshare.backend.reviewFeedback.interfaces.rest.transform.CreateReviewsCommandFromResourceAssembler;
 import com.bikeshare.backend.reviewFeedback.interfaces.rest.transform.ReviewsResourceFromEntityAssembler;
-import com.bikeshare.backend.userManagement.domain.model.aggregate.Users;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.print.attribute.standard.Media;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -86,10 +83,10 @@ public class ReviewsController {
     }
 
 
-    @GetMapping("/by-reviewer/{reviewerId}/target/{targetUserId}")
+    @GetMapping("/target/{targetUserEmail}")
     @Operation(
-            summary = "Get a reviews data by reviewerId and targetUserId",
-            description = "Get a reviews data with reviewerId and targetUserId param"
+            summary = "Get a reviews data by targetUser email",
+            description = "Get a reviews data with targetUser email param"
     )
     @ApiResponses(
             value = {
@@ -97,12 +94,13 @@ public class ReviewsController {
                     @ApiResponse(responseCode = "404", description = "Not Found")
             }
     )
-    public ResponseEntity<ReviewsResource> getReviewsByReviewerIdAndTargetUserId(@PathVariable("reviewerId")Long reviewerId, @PathVariable("targetUserId") Long targetUserId){
-        Optional<Reviews> reviews = reviewsQueryService.handle(new GetReviewsByReviewerIdAndTargetUserIdQuery(reviewerId, targetUserId));
-        return reviews.map(
-                source -> ResponseEntity.ok(ReviewsResourceFromEntityAssembler.toResourceFromEntity(source))
-        ).orElseGet(() -> ResponseEntity.notFound().build());
-
+    public ResponseEntity<List<ReviewsResource>> getReviewsByTargetUserEmail(@PathVariable("targetUserEmail")String targetUserEmail){
+        var reviews = reviewsQueryService.handle(new GetReviewsByTargetUserEmail(targetUserEmail));
+        if(reviews.isEmpty()){ return ResponseEntity.badRequest().build();}
+        var reviewsResources = reviews.stream()
+                .map(ReviewsResourceFromEntityAssembler::toResourceFromEntity)
+                .toList();
+        return ResponseEntity.ok(reviewsResources);
     }
 
 

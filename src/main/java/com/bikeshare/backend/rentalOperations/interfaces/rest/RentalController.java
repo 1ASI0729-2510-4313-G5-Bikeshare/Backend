@@ -3,6 +3,7 @@ package com.bikeshare.backend.rentalOperations.interfaces.rest;
 
 import com.bikeshare.backend.rentalOperations.domain.model.queries.GetAllRentalsQuery;
 import com.bikeshare.backend.rentalOperations.domain.model.queries.GetRentalByIdQuery;
+import com.bikeshare.backend.rentalOperations.domain.model.queries.GetRentalsByClientEmail;
 import com.bikeshare.backend.rentalOperations.domain.services.RentalCommandService;
 import com.bikeshare.backend.rentalOperations.domain.services.RentalQueryService;
 import com.bikeshare.backend.rentalOperations.interfaces.rest.resources.CreateRentalResource;
@@ -19,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Locale;
 
 @RestController
 @RequestMapping(value = "/api/v1/rental", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -67,6 +69,23 @@ public class RentalController {
         return ResponseEntity.ok(rentalResource);
     }
 
+    @GetMapping("/{clientEmail}")
+    @Operation(summary = "Get a rental by client email")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Rental found"),
+                    @ApiResponse(responseCode = "404", description = "Rental not found")
+            }
+    )
+    public ResponseEntity<List<RentalResource>> getRentalsByClientEmail(@PathVariable String clientEmail) {
+        var rentals = rentalQueryService.handle(new GetRentalsByClientEmail(clientEmail));
+        if(rentals.isEmpty()) return ResponseEntity.notFound().build();
+        var rentalResource = rentals.stream()
+                .map(RentalResourceFromEntityAssembler::toResourceFromEntity)
+                .toList();
+        return ResponseEntity.ok(rentalResource);
+    }
+
     @GetMapping
     @Operation(summary = "Get all profiles")
     @ApiResponses(
@@ -83,4 +102,25 @@ public class RentalController {
                 .toList();
         return ResponseEntity.ok(rentalResource);
     }
+
+    @DeleteMapping("{rentalId}")
+    @Operation(
+            summary = "Delete a rental",
+            description = "Deletes the rental with the specified rentalId"
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "204", description = "User deleted successfully"),
+                    @ApiResponse(responseCode = "404", description = "User not found")
+            }
+    )
+    public ResponseEntity<Void> deleteUser(@PathVariable("rentalId") Long rentalId) {
+        boolean deleted = rentalCommandService.deleteRental(rentalId);
+        if (deleted) {
+            return ResponseEntity.noContent().build(); // 204
+        } else {
+            return ResponseEntity.notFound().build();  // 404
+        }
+    }
+
 }

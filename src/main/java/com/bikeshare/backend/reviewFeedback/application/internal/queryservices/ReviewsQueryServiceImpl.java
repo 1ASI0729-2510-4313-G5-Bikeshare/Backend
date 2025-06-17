@@ -3,7 +3,7 @@ package com.bikeshare.backend.reviewFeedback.application.internal.queryservices;
 import com.bikeshare.backend.reviewFeedback.domain.model.aggregate.Reviews;
 import com.bikeshare.backend.reviewFeedback.domain.model.queries.GetAllReviewsQuery;
 import com.bikeshare.backend.reviewFeedback.domain.model.queries.GetReviewsByIdQuery;
-import com.bikeshare.backend.reviewFeedback.domain.model.queries.GetReviewsByReviewerIdAndTargetUserIdQuery;
+import com.bikeshare.backend.reviewFeedback.domain.model.queries.GetReviewsByTargetUserEmail;
 import com.bikeshare.backend.reviewFeedback.domain.services.ReviewsQueryService;
 import com.bikeshare.backend.reviewFeedback.infrastructure.persistence.jpa.ReviewsRepository;
 import org.springframework.stereotype.Service;
@@ -27,8 +27,8 @@ public class ReviewsQueryServiceImpl implements ReviewsQueryService {
     }
 
     @Override
-    public Optional<Reviews> handle(GetReviewsByReviewerIdAndTargetUserIdQuery query){
-        return this.reviewsRepository.findByReviewerId_UserIdAndTargetUserId_UserId(query.reviewerId(), query.targetUserId());
+    public List<Reviews> handle(GetReviewsByTargetUserEmail query){
+        return this.reviewsRepository.findByTargetUserId_Email(query.email());
     }
 
     @Override

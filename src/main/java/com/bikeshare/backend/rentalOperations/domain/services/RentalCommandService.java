@@ -7,5 +7,7 @@ import java.util.Optional;
 
 public interface RentalCommandService {
 
+    boolean deleteRental(Long rentalId);
+
     Optional<Rentals> handle(CreateRentalCommand command);
 }
