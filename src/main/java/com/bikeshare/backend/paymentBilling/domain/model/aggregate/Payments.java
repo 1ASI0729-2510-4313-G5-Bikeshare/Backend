@@ -24,7 +24,7 @@ public class Payments {
     @JoinColumn(name = "rental_id",nullable = false)
     private Rentals rentalId;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "user_id",nullable = false)
     private Users userId;
 
@@ -34,7 +34,7 @@ public class Payments {
     @CreatedDate
     private Date timestamp;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "status_id", nullable = false)
     private PaymentStatus statusId;
 

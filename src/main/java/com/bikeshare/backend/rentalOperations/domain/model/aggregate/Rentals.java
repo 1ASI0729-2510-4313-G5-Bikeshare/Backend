@@ -19,11 +19,11 @@ public class Rentals {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long rentalId;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name= "bike_id",nullable = false)
     private Bikes bikeId;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "client_id",nullable = false)
     private Users clientId;
 
@@ -33,7 +33,7 @@ public class Rentals {
     @Column(nullable = true)
     private String endTime;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "status_id", nullable = false)
     private RentalStatus statusId;
 

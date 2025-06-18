@@ -17,15 +17,15 @@ public class Notifications {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long notificationId;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     private Users userId;
 
     @Column(nullable = false)
     private String message;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "typeId",nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "typ_id",nullable = false)
     private NotificationsType typeId;
 
     @CreatedDate

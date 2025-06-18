@@ -16,7 +16,7 @@ import java.util.Date;
 @Getter
 public class LenderProfiles {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "lender_id", nullable = false)

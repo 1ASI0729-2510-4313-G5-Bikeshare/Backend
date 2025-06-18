@@ -16,19 +16,19 @@ public class Bikes {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bikeId;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ownerId", nullable = false, updatable = true, insertable = true)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "owner_id", nullable = false, updatable = true, insertable = true)
     private Users ownerId;
 
     @Column(nullable = false)
     private String model;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "typeId", nullable = false, updatable = true, insertable = true)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "type_id", nullable = false, updatable = true, insertable = true)
     private BikeTypes typeId;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "statusId",nullable = false, updatable = true, insertable = true)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "status_id",nullable = false, updatable = true, insertable = true)
     private BikeStatus statusId;
 
     @Column(nullable = false)

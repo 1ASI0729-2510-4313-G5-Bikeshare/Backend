@@ -17,11 +17,11 @@ public class Reviews {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long reviewId;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name ="reviewer_id",nullable = false, insertable = true, updatable = true)
     private Users reviewerId;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "target_user_id", nullable = false, insertable = true, updatable = true)
     private Users targetUserId;
 

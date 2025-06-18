@@ -10,7 +10,7 @@ import javax.annotation.processing.Generated;
 public class UserRoles {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false)
+    @Column(name = "role_id", nullable = false)
     private Long role_id;
 
     @Column(name = "role_name",nullable = false)
