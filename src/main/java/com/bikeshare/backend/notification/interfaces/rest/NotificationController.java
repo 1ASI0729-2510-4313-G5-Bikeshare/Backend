@@ -91,24 +91,6 @@ public class NotificationController {
                 source -> ResponseEntity.ok(NotificationResourceFromEntityAssembler.toResourceFromEntity(source))
         ).orElseGet(() -> ResponseEntity.notFound().build());
     }
-    //Pago confirmado,
-    @GetMapping("/{userId}/{message}/{typeId}")
-    @Operation(
-            summary = "Get a users data by UserId, Message and TypeId",
-            description = "Gets a users data with UserId, Message and TypeId params"
-    )
-    @ApiResponses(
-            value = {
-                    @ApiResponse(responseCode = "200", description = "Notification Found"),
-                    @ApiResponse(responseCode = "404", description = "Not Found")
-            }
-    )
-    public ResponseEntity<NotificationResource> getNotificationByAllParams(@PathVariable("userId") Long userId, @PathVariable("message") String message, @PathVariable("typeId") Long typeId){
-        Optional<Notifications> notifications = notificationQueryService.handle(new GetNotificationByUserIdMessageAndTypeId(userId, message, typeId));
-        return notifications.map(
-                source -> ResponseEntity.ok(NotificationResourceFromEntityAssembler.toResourceFromEntity(source))
-        ).orElseGet(() -> ResponseEntity.notFound().build());
-    }
 
 
 
