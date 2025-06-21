@@ -20,7 +20,7 @@ public class OwnerProfileCommandServiceImpl implements OwnerProfileCommandServic
     @Override
     public Optional<OwnerProfiles> handle(CreateOwnerProfileCommand command) {
         var lenderProfile = new OwnerProfiles(command);
-        if(ownerProfilesRepository.existsByLenderId_UserId(command.ownerId().getUserId())){
+        if(ownerProfilesRepository.existsByOwner_UserId(command.ownerId().getUserId())){
             throw new IllegalArgumentException("Lender profile already exists");
         }
         ownerProfilesRepository.save(lenderProfile);

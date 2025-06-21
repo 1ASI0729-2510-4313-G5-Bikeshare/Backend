@@ -22,7 +22,7 @@ public class OwnerProfileQueryServiceImpl implements OwnerProfileQueryService {
 
     @Override
     public Optional<OwnerProfiles> handle(GetOwnerProfileById query) {
-        return ownerProfilesRepository.findByLenderId_UserId(query.lenderId());
+        return ownerProfilesRepository.findByOwner_UserId(query.lenderId());
     }
 
     @Override

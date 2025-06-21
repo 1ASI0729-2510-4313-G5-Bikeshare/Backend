@@ -21,7 +21,7 @@ public class ReservationCommandServiceImpl implements ReservationCommandService 
     @Override
     public Optional<Reservations> handle(CreateReservationCommand command) {
         var rental = new Reservations(command);
-        if(reservationsRepository.existsByBikeId_BikeIdAndClientId_UserIdAndStartTime(command.bikeId().getBikeId(), command.renterId().getUserId(), command.startTime())){
+        if(reservationsRepository.existsByBikeId_BikeIdAndRenter_UserIdAndStartTime(command.bikeId().getBikeId(), command.renter().getUserId(), command.startTime())){
             throw new IllegalArgumentException("bikeId and UserId and startTime cannot be the same");
         }
 

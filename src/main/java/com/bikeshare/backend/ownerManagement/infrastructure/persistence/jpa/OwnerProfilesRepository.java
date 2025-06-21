@@ -8,12 +8,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface OwnerProfilesRepository extends JpaRepository<OwnerProfiles, Integer> {
+public interface OwnerProfilesRepository extends JpaRepository<OwnerProfiles, Long> {
 
-    Optional<OwnerProfiles> findByLenderId_UserId(Long lenderId);
+    Optional<OwnerProfiles> findByOwner_UserId(Long ownerId);
+    boolean existsByOwner_UserId(Long ownerId);
 
     List<OwnerProfiles> findAllByTotalEarningsGreaterThan(Double totalEarningsAfter);
-
-    boolean existsByLenderId_UserId(Long lenderId);
 
 }

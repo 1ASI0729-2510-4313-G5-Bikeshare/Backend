@@ -6,7 +6,7 @@ import com.bikeshare.backend.userManagement.domain.model.aggregate.Users;
 
 public record CreateReservationCommand(
         Bikes bikeId,
-        Users renterId,
+        Users renter,
         String startTime,
         String endTime,
         ReservationStatus statusId,
