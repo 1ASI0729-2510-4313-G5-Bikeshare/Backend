@@ -8,7 +8,7 @@ public class ReservationResourceFromEntityAssembler {
     public static ReservationResource toResourceFromEntity(Reservations entity){
         return new ReservationResource(
                 entity.getBikeId(),
-                entity.getClientId(),
+                entity.getRentertId(),
                 entity.getStartTime(),
                 entity.getEndTime(),
                 entity.getStatusId(),

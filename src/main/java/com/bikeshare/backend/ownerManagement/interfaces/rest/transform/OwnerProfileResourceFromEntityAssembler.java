@@ -7,7 +7,7 @@ public class OwnerProfileResourceFromEntityAssembler {
 
     public static OwnerProfileResource toResourceFromEntity(OwnerProfiles entity) {
         return new OwnerProfileResource(
-                entity.getLenderId(),
+                entity.getOwner(),
                 entity.getBio(),
                 entity.getTotalEarnings(),
                 entity.getRating()
