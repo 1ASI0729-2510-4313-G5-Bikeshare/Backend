@@ -3,7 +3,7 @@ package com.bikeshare.backend.reservationManagement.application.internal.queryse
 import com.bikeshare.backend.reservationManagement.domain.model.aggregate.Reservations;
 import com.bikeshare.backend.reservationManagement.domain.model.queries.GetAllReservationsQuery;
 import com.bikeshare.backend.reservationManagement.domain.model.queries.GetReservationByIdQuery;
-import com.bikeshare.backend.reservationManagement.domain.model.queries.GetReservationsByClientEmail;
+import com.bikeshare.backend.reservationManagement.domain.model.queries.GetReservationsByRenterEmail;
 import com.bikeshare.backend.reservationManagement.domain.services.ReservationQueryService;
 import com.bikeshare.backend.reservationManagement.infrastructure.persistence.jpa.ReservationsRepository;
 import org.springframework.stereotype.Service;
@@ -26,8 +26,8 @@ public class ReservationQueryServiceImpl implements ReservationQueryService {
     }
 
     @Override
-    public List<Reservations> handle(GetReservationsByClientEmail query) {
-        return reservationsRepository.findByClientId_Email(query.email());
+    public List<Reservations> handle(GetReservationsByRenterEmail query) {
+        return reservationsRepository.findByRenter_Email(query.renterEmail());
     }
 
     @Override

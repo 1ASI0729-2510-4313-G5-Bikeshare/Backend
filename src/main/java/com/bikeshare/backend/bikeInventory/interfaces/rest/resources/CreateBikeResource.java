@@ -10,7 +10,8 @@ public record CreateBikeResource(
         BikeTypes typeId,
         BikeStatus statusId,
         Double latitude,
-        Double longitude)
+        Double longitude, String imageUrl, Double costPerMinute
+)
 {
     public CreateBikeResource{
         if(ownerId == null)
@@ -23,6 +24,10 @@ public record CreateBikeResource(
             throw new IllegalArgumentException("statusId cannot be null");
         if(latitude == null || longitude == null)
             throw new IllegalArgumentException("latitude and longitude cannot be null");
+        if(imageUrl == null)
+            throw new IllegalArgumentException("statusId cannot be null");
+        if(costPerMinute == null)
+            throw new IllegalArgumentException("statusId cannot be null");
     }
 
 }

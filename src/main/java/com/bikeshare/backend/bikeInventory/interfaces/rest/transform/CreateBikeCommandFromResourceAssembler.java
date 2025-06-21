@@ -6,6 +6,6 @@ import com.bikeshare.backend.bikeInventory.interfaces.rest.resources.CreateBikeR
 public class CreateBikeCommandFromResourceAssembler {
 
     public static CreateBikesCommand toCommandFromResource(CreateBikeResource resource){
-        return new CreateBikesCommand(resource.ownerId(),resource.model(),resource.typeId(),resource.statusId(),resource.latitude(),resource.longitude());
+        return new CreateBikesCommand(resource.ownerId(),resource.model(),resource.typeId(),resource.statusId(),resource.latitude(),resource.imageUrl(),resource.costPerMinute(),resource.longitude());
     }
 }

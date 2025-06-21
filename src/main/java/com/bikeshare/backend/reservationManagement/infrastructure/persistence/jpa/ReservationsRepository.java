@@ -9,7 +9,7 @@ import java.util.List;
 @Repository
 public interface ReservationsRepository extends JpaRepository<Reservations, Long> {
 
-    List<Reservations> findByClientId_Email(String email);
+    List<Reservations> findByRenter_Email(String email);
 
     boolean existsByBikeId_BikeIdAndClientId_UserIdAndStartTime(Long bikeId, Long clientId, String startTime);
 }

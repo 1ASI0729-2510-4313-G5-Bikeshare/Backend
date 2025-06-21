@@ -37,6 +37,12 @@ public class Bikes {
     @Column(nullable = false)
     private Double longitude;
 
+    @Column(nullable = false)
+    private String imageUrl;
+
+    @Column(nullable = false)
+    private Double costPerMinute;
+
     @CreatedDate
     private Date created_at;
 
@@ -52,5 +58,7 @@ public class Bikes {
         this.statusId = command.statusId();
         this.latitude = command.latitude();
         this.longitude = command.longitude();
+        this.imageUrl = command.imageUrl();
+        this.costPerMinute = command.costPerMinute();
     }
 }

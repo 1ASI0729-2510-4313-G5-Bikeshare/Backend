@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/v1/rental-status", produces = MediaType.APPLICATION_JSON_VALUE)
-@Tag(name = "Rental Status", description = "Available Rental Status Endpoints")
+@RequestMapping(value = "/api/v1/reservation-statuses", produces = MediaType.APPLICATION_JSON_VALUE)
+@Tag(name = "Reservation Status", description = "Available Reservation Status Endpoints")
 public class ReservationStatusController {
 
     private final ReservationStatusCommandService reservationStatusCommandService;
@@ -34,54 +34,54 @@ public class ReservationStatusController {
     }
 
     @PostMapping
-    @Operation(summary = "Create a rental status")
+    @Operation(summary = "Create a reservation status")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "201", description = "Rental Status created"),
+                    @ApiResponse(responseCode = "201", description = "Reservation Status created"),
                     @ApiResponse(responseCode = "400", description = "Bad Request")
             }
     )
-    public ResponseEntity<ReservationStatusResource> createRentalStatus(@RequestBody CreateReservationStatusResource resource){
-        var createRentalStatusCommand = CreateReservationStatusCommandFromResourceAssembler.toCommandFromResource(resource);
-        var rentalStatus = reservationStatusCommandService.handle(createRentalStatusCommand);
-        if (rentalStatus.isEmpty()) return ResponseEntity.badRequest().build();
-        var createdRentalStatus = rentalStatus.get();
-        var rentalStatusResource = ReservationStatusResourceFromEntityAssembler.toResourceFromEntity(createdRentalStatus);
-        return new ResponseEntity<>(rentalStatusResource, HttpStatus.CREATED);
+    public ResponseEntity<ReservationStatusResource> createReservationStatus(@RequestBody CreateReservationStatusResource resource){
+        var createReservationStatusCommand = CreateReservationStatusCommandFromResourceAssembler.toCommandFromResource(resource);
+        var reservationStatus = reservationStatusCommandService.handle(createReservationStatusCommand);
+        if (reservationStatus.isEmpty()) return ResponseEntity.badRequest().build();
+        var createdReservationStatus = reservationStatus.get();
+        var reservationStatusResource = ReservationStatusResourceFromEntityAssembler.toResourceFromEntity(createdReservationStatus);
+        return new ResponseEntity<>(reservationStatusResource, HttpStatus.CREATED);
     }
 
     @GetMapping("/{statusId}")
-    @Operation(summary = "Get rental status by Id")
+    @Operation(summary = "Get reservation status by Id")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "200", description = "Rental Status Found"),
-                    @ApiResponse(responseCode = "404", description = "Rental Status not Found")
+                    @ApiResponse(responseCode = "200", description = "Reservation Status Found"),
+                    @ApiResponse(responseCode = "404", description = "Reservation Status not Found")
             }
     )
-    public ResponseEntity<ReservationStatusResource> getRentalStatusById(@PathVariable("statusId") Long statusId){
-        var getRentalStatusByIdQuery = new GetReservationStatusByIdQuery(statusId);
-        var rentalStatus = reservationStatusQueryService.handle(getRentalStatusByIdQuery);
-        if (rentalStatus.isEmpty()) return ResponseEntity.badRequest().build();
-        var rentalStatusEntity = rentalStatus.get();
-        var rentalStatusResource = ReservationStatusResourceFromEntityAssembler.toResourceFromEntity(rentalStatusEntity);
-        return ResponseEntity.ok(rentalStatusResource);
+    public ResponseEntity<ReservationStatusResource> getReservationStatusById(@PathVariable("statusId") Long statusId){
+        var getReservationStatusByIdQuery = new GetReservationStatusByIdQuery(statusId);
+        var reservationStatus = reservationStatusQueryService.handle(getReservationStatusByIdQuery);
+        if (reservationStatus.isEmpty()) return ResponseEntity.badRequest().build();
+        var reservationStatusEntity = reservationStatus.get();
+        var reservationStatusResource = ReservationStatusResourceFromEntityAssembler.toResourceFromEntity(reservationStatusEntity);
+        return ResponseEntity.ok(reservationStatusResource);
     }
 
 
     @GetMapping
-    @Operation(summary = "Get all rental status")
+    @Operation(summary = "Get all reservation status")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "200", description = "Rental Status found"),
-                    @ApiResponse(responseCode = "404", description = "Rental Status not found")
+                    @ApiResponse(responseCode = "200", description = "Reservation Statuses found"),
+                    @ApiResponse(responseCode = "404", description = "Reservation Status not found")
             }
     )
-    public ResponseEntity<List<ReservationStatusResource>> getAllRentalStatus(){
-        var rentalStatus = reservationStatusQueryService.handle(new GetAllReservationStatusQuery());
-        if (rentalStatus.isEmpty()) return ResponseEntity.notFound().build();
-        var rentalStatusResource = rentalStatus.stream()
+    public ResponseEntity<List<ReservationStatusResource>> getAllReservationStatuses(){
+        var reservationStatuses = reservationStatusQueryService.handle(new GetAllReservationStatusQuery());
+        if (reservationStatuses.isEmpty()) return ResponseEntity.notFound().build();
+        var reservationStatusResources = reservationStatuses.stream()
                 .map(ReservationStatusResourceFromEntityAssembler::toResourceFromEntity)
                 .toList();
-        return ResponseEntity.ok(rentalStatusResource);
+        return ResponseEntity.ok(reservationStatusResources);
     }
 }

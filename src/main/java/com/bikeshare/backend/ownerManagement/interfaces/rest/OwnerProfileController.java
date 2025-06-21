@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/v1/lender-profile", produces = MediaType.APPLICATION_JSON_VALUE)
-@Tag(name = "Owner Profiles", description = "Lender Profile Endpoints")
+@RequestMapping(value = "/api/v1/owner-profile", produces = MediaType.APPLICATION_JSON_VALUE)
+@Tag(name = "Owner Profiles", description = "Owner Profile Endpoints")
 public class OwnerProfileController {
 
     private final OwnerProfileCommandService ownerProfileCommandService;
@@ -39,60 +39,61 @@ public class OwnerProfileController {
             @ApiResponse(responseCode = "201", description = "Lender Profile created"),
             @ApiResponse(responseCode = "400", description = "Bad request")
     })
-    public ResponseEntity<OwnerProfileResource> createLenderProfile(@RequestBody CreateOwnerProfileResource resource) {
+    public ResponseEntity<OwnerProfileResource> createOwnerProfile(@RequestBody CreateOwnerProfileResource resource) {
         var createLenderProfileCommand = CreateOwnerProfileCommandFromResourceAssembler.toCommandFromResource(resource);
-        var lenderProfile = ownerProfileCommandService.handle(createLenderProfileCommand);
-        if (lenderProfile.isEmpty()) return ResponseEntity.badRequest().build();
-        var createdProfile = lenderProfile.get();
-        var lenderProfileResource = OwnerProfileResourceFromEntityAssembler.toResourceFromEntity(createdProfile);
-        return new ResponseEntity<>(lenderProfileResource, HttpStatus.CREATED);
+        var ownerProfile = ownerProfileCommandService.handle(createLenderProfileCommand);
+        if (ownerProfile.isEmpty()) return ResponseEntity.badRequest().build();
+        var createdProfile = ownerProfile.get();
+        var ownerProfileResource = OwnerProfileResourceFromEntityAssembler.toResourceFromEntity(createdProfile);
+        return new ResponseEntity<>(ownerProfileResource, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{lenderProfileId}")
+    @GetMapping("/{ownerProfileId}")
     @Operation(summary = "Get Owner profile by ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Profile Found"),
             @ApiResponse(responseCode = "404", description = "Profile not Found")
     })
-    public ResponseEntity<OwnerProfileResource> getLenderProfileById(@PathVariable Long lenderProfileId) {
-        var getLenderProfileByIdQuery = new GetOwnerProfileById(lenderProfileId);
-        var lenderProfile = ownerProfileQueryService.handle(getLenderProfileByIdQuery);
-        if (lenderProfile.isEmpty()) return ResponseEntity.notFound().build();
-        var lenderProfileEntity = lenderProfile.get();
-        var lenderProfileResource = OwnerProfileResourceFromEntityAssembler.toResourceFromEntity(lenderProfileEntity);
-        return ResponseEntity.ok(lenderProfileResource);
+    public ResponseEntity<OwnerProfileResource> getOwnerProfileById(@PathVariable Long ownerProfileId) {
+        var getOwnerProfileByIdQuery = new GetOwnerProfileById(ownerProfileId);
+        var ownerProfile = ownerProfileQueryService.handle(getOwnerProfileByIdQuery);
+        if (ownerProfile.isEmpty()) return ResponseEntity.notFound().build();
+        var ownerProfileEntity = ownerProfile.get();
+        var ownerProfileResource = OwnerProfileResourceFromEntityAssembler.toResourceFromEntity(ownerProfileEntity);
+        return ResponseEntity.ok(ownerProfileResource);
     }
 
 
-    @GetMapping("/{totalEarnings}")
+    @GetMapping("/by-earnings/{totalEarnings}")
     @Operation(summary = "Get profiles by total earnings")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "LenderProfile Found"),
-            @ApiResponse(responseCode = "404", description = "LenderProfile not Found")
+            @ApiResponse(responseCode = "200", description = "Profiles Found"),
+            @ApiResponse(responseCode = "404", description = "Profiles not Found")
     })
-    public ResponseEntity<List<OwnerProfileResource>> getLenderProfileById(@PathVariable Double totalEarnings) {
-        var getLenderProfilesByTotalEarnings = new GetOwnerProfileByTotalEarnings(totalEarnings);
-        var lenderProfiles = ownerProfileQueryService.handle(getLenderProfilesByTotalEarnings);
-        if (lenderProfiles.isEmpty()) return ResponseEntity.notFound().build();
-        var lenderProfileResource = lenderProfiles.stream()
+    public ResponseEntity<List<OwnerProfileResource>> getOwnerProfilesByEarnings(@PathVariable Double totalEarnings) {
+        var getOwnerProfilesByTotalEarnings = new GetOwnerProfileByTotalEarnings(totalEarnings);
+        var ownerProfiles = ownerProfileQueryService.handle(getOwnerProfilesByTotalEarnings);
+        if (ownerProfiles.isEmpty()) return ResponseEntity.notFound().build();
+        var ownerProfileResources = ownerProfiles.stream()
                 .map(OwnerProfileResourceFromEntityAssembler::toResourceFromEntity)
                 .toList();
-        return ResponseEntity.ok(lenderProfileResource);
+        return ResponseEntity.ok(ownerProfileResources);
     }
+
 
     @GetMapping
     @Operation(summary = "Get all Owner profiles")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Lender Profile Found"),
-            @ApiResponse(responseCode = "404", description = "Lender Profile not Found")
+            @ApiResponse(responseCode = "200", description = "Owner Profiles Found"),
+            @ApiResponse(responseCode = "404", description = "Owner Profiles not Found")
     })
-    public ResponseEntity<List<OwnerProfileResource>> getAllLenderProfiles() {
-        var lenderProfiles = ownerProfileQueryService.handle(new GetAllOwnerProfilesQuery());
-        if (lenderProfiles.isEmpty()) return ResponseEntity.notFound().build();
-        var lenderProfileResource = lenderProfiles.stream()
+    public ResponseEntity<List<OwnerProfileResource>> getAllOwnerProfiles() {
+        var ownerProfiles = ownerProfileQueryService.handle(new GetAllOwnerProfilesQuery());
+        if (ownerProfiles.isEmpty()) return ResponseEntity.notFound().build();
+        var ownerProfileResources = ownerProfiles.stream()
                 .map(OwnerProfileResourceFromEntityAssembler::toResourceFromEntity)
                 .toList();
-        return ResponseEntity.ok(lenderProfileResource);
+        return ResponseEntity.ok(ownerProfileResources);
     }
 
 }

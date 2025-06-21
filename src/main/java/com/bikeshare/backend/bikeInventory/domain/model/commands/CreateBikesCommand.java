@@ -4,7 +4,7 @@ import com.bikeshare.backend.bikeInventory.domain.model.aggregate.BikeStatus;
 import com.bikeshare.backend.bikeInventory.domain.model.aggregate.BikeTypes;
 import com.bikeshare.backend.userManagement.domain.model.aggregate.Users;
 
-public record CreateBikesCommand(Users ownerId, String model, BikeTypes typeId, BikeStatus statusId, double latitude, double longitude) {
+public record CreateBikesCommand(Users ownerId, String model, BikeTypes typeId, BikeStatus statusId, double latitude, String imageUrl,Double costPerMinute,double longitude) {
 
     public CreateBikesCommand{
         if(ownerId == null) {

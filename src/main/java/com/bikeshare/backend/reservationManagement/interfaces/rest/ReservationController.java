@@ -1,9 +1,8 @@
 package com.bikeshare.backend.reservationManagement.interfaces.rest;
 
-
 import com.bikeshare.backend.reservationManagement.domain.model.queries.GetAllReservationsQuery;
 import com.bikeshare.backend.reservationManagement.domain.model.queries.GetReservationByIdQuery;
-import com.bikeshare.backend.reservationManagement.domain.model.queries.GetReservationsByClientEmail;
+import com.bikeshare.backend.reservationManagement.domain.model.queries.GetReservationsByRenterEmail;
 import com.bikeshare.backend.reservationManagement.domain.services.ReservationCommandService;
 import com.bikeshare.backend.reservationManagement.domain.services.ReservationQueryService;
 import com.bikeshare.backend.reservationManagement.interfaces.rest.resources.CreateReservationResource;
@@ -22,10 +21,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/v1/rental", produces = MediaType.APPLICATION_JSON_VALUE)
-@Tag(name = "Rentals", description = "Available Rentals Endpoints")
+@RequestMapping(value = "/api/v1/reservations", produces = MediaType.APPLICATION_JSON_VALUE)
+@Tag(name = "Reservations", description = "Available Reservations Endpoints")
 public class ReservationController {
-
     private final ReservationCommandService reservationCommandService;
     private final ReservationQueryService reservationQueryService;
 
@@ -35,90 +33,88 @@ public class ReservationController {
     }
 
     @PostMapping
-    @Operation(summary = "Creates a rental")
+    @Operation(summary = "Creates a reservation")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "201", description = "Rental created"),
+                    @ApiResponse(responseCode = "201", description = "Reservation created"),
                     @ApiResponse(responseCode = "400", description = "Bad Request")
             }
     )
-    public ResponseEntity<ReservationResource> createRental(@RequestBody CreateReservationResource resource) {
-        var createdRentalCommand = CreateReservationCommandFromResourceAssembler.toCommandFromResource(resource);
-        var rental = reservationCommandService.handle(createdRentalCommand);
-        if(rental.isEmpty()) return ResponseEntity.badRequest().build();
-        var createdRental = rental.get();
-        var rentalResource = ReservationResourceFromEntityAssembler.toResourceFromEntity(createdRental);
-        return new ResponseEntity<>(rentalResource, HttpStatus.CREATED);
+    public ResponseEntity<ReservationResource> createReservation(@RequestBody CreateReservationResource resource) {
+        var createReservationCommand = CreateReservationCommandFromResourceAssembler.toCommandFromResource(resource);
+        var reservation = reservationCommandService.handle(createReservationCommand);
+        if(reservation.isEmpty()) return ResponseEntity.badRequest().build();
+        var createdReservation = reservation.get();
+        var reservationResource = ReservationResourceFromEntityAssembler.toResourceFromEntity(createdReservation);
+        return new ResponseEntity<>(reservationResource, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{rentalId}")
-    @Operation(summary = "Get a rental by Id")
+    @GetMapping("/{reservationId}")
+    @Operation(summary = "Get a reservation by Id")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "200", description = "Rental Found"),
+                    @ApiResponse(responseCode = "200", description = "Reservation Found"),
                     @ApiResponse(responseCode = "404", description = "Rental not found")
             }
     )
-    public ResponseEntity<ReservationResource> getRentalById(@PathVariable Long rentalId) {
-        var getRentalByIdQuery = new GetReservationByIdQuery(rentalId);
-        var rental = reservationQueryService.handle(getRentalByIdQuery);
-        if(rental.isEmpty()) return ResponseEntity.notFound().build();
-        var rentalEntity = rental.get();
-        var rentalResource = ReservationResourceFromEntityAssembler.toResourceFromEntity(rentalEntity);
-        return ResponseEntity.ok(rentalResource);
+    public ResponseEntity<ReservationResource> getReservationById(@PathVariable Long reservationId) { // CAMBIO 6
+        var getReservationByIdQuery = new GetReservationByIdQuery(reservationId);
+        var reservation = reservationQueryService.handle(getReservationByIdQuery);
+        if(reservation.isEmpty()) return ResponseEntity.notFound().build();
+        var reservationEntity = reservation.get();
+        var reservationResource = ReservationResourceFromEntityAssembler.toResourceFromEntity(reservationEntity);
+        return ResponseEntity.ok(reservationResource);
     }
 
-    @GetMapping("/{clientEmail}")
-    @Operation(summary = "Get a rental by client email")
+    @GetMapping("/by-renter/{renterEmail}")
+    @Operation(summary = "Get reservations by renter email")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "200", description = "Rental found"),
+                    @ApiResponse(responseCode = "200", description = "Reservations found"),
                     @ApiResponse(responseCode = "404", description = "Rental not found")
             }
     )
-    public ResponseEntity<List<ReservationResource>> getRentalsByClientEmail(@PathVariable String clientEmail) {
-        var rentals = reservationQueryService.handle(new GetReservationsByClientEmail(clientEmail));
-        if(rentals.isEmpty()) return ResponseEntity.notFound().build();
-        var rentalResource = rentals.stream()
+    public ResponseEntity<List<ReservationResource>> getReservationsByRenterEmail(@PathVariable String renterEmail) {
+        var reservations = reservationQueryService.handle(new GetReservationsByRenterEmail(renterEmail));
+        if(reservations.isEmpty()) return ResponseEntity.notFound().build();
+        var reservationResources = reservations.stream()
                 .map(ReservationResourceFromEntityAssembler::toResourceFromEntity)
                 .toList();
-        return ResponseEntity.ok(rentalResource);
+        return ResponseEntity.ok(reservationResources);
     }
 
     @GetMapping
-    @Operation(summary = "Get all profiles")
+    @Operation(summary = "Get all reservations")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "200", description = "Rental not found"),
-                    @ApiResponse(responseCode = "404", description = "Rental not found")
+                    @ApiResponse(responseCode = "200", description = "Reservations found"),
+                    @ApiResponse(responseCode = "404", description = "Reservations not found")
             }
     )
-    public ResponseEntity<List<ReservationResource>> getAllRentals() {
-        var rentals = reservationQueryService.handle(new GetAllReservationsQuery());
-        if(rentals.isEmpty()) return ResponseEntity.notFound().build();
-        var rentalResource = rentals.stream()
+    public ResponseEntity<List<ReservationResource>> getAllReservations() {
+        var reservations = reservationQueryService.handle(new GetAllReservationsQuery());
+        if(reservations.isEmpty()) return ResponseEntity.notFound().build();
+        var reservationResources = reservations.stream()
                 .map(ReservationResourceFromEntityAssembler::toResourceFromEntity)
                 .toList();
-        return ResponseEntity.ok(rentalResource);
+        return ResponseEntity.ok(reservationResources);
     }
 
-    @DeleteMapping("{rentalId}")
-    @Operation(
-            summary = "Delete a rental",
-            description = "Deletes the rental with the specified rentalId"
-    )
+
+    @DeleteMapping("{reservationId}")
+    @Operation(summary = "Delete a reservation", description = "Deletes the reservation with the specified ID")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "204", description = "User deleted successfully"),
-                    @ApiResponse(responseCode = "404", description = "User not found")
+                    @ApiResponse(responseCode = "204", description = "Reservation deleted successfully"),
+                    @ApiResponse(responseCode = "404", description = "Reservation not found")
             }
     )
-    public ResponseEntity<Void> deleteUser(@PathVariable("rentalId") Long rentalId) {
-        boolean deleted = reservationCommandService.deleteRental(rentalId);
+    public ResponseEntity<Void> deleteReservation(@PathVariable("reservationId") Long reservationId) {
+        boolean deleted = reservationCommandService.deleteReservation(reservationId);
         if (deleted) {
-            return ResponseEntity.noContent().build(); // 204
+            return ResponseEntity.noContent().build();
         } else {
-            return ResponseEntity.notFound().build();  // 404
+            return ResponseEntity.notFound().build();
         }
     }
 

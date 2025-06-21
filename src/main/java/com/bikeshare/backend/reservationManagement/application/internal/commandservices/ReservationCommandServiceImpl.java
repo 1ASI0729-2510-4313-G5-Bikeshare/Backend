@@ -31,7 +31,7 @@ public class ReservationCommandServiceImpl implements ReservationCommandService 
     }
 
     @Override
-    public boolean deleteRental(Long rentalId) {
+    public boolean deleteReservation(Long rentalId) {
         Optional<Reservations> rentalsOptional = reservationsRepository.findById(rentalId);
         if(rentalsOptional.isPresent()){
             reservationsRepository.delete(rentalsOptional.get());
