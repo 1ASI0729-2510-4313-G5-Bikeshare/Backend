@@ -1,0 +1,15 @@
+package com.bikeshare.backend.reservationManagement.domain.model.commands;
+
+import com.bikeshare.backend.bikeInventory.domain.model.aggregate.Bikes;
+import com.bikeshare.backend.reservationManagement.domain.model.aggregate.ReservationStatus;
+import com.bikeshare.backend.userManagement.domain.model.aggregate.Users;
+
+public record CreateReservationCommand(
+        Bikes bikeId,
+        Users renterId,
+        String startTime,
+        String endTime,
+        ReservationStatus statusId,
+        Double price
+) {
+}

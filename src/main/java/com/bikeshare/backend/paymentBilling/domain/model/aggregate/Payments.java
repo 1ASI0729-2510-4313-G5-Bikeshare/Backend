@@ -1,15 +1,11 @@
 package com.bikeshare.backend.paymentBilling.domain.model.aggregate;
 
 import com.bikeshare.backend.paymentBilling.domain.model.commands.CreatePaymentCommand;
-import com.bikeshare.backend.rentalOperations.domain.model.aggregate.RentalStatus;
-import com.bikeshare.backend.rentalOperations.domain.model.aggregate.Rentals;
+import com.bikeshare.backend.reservationManagement.domain.model.aggregate.Reservations;
 import com.bikeshare.backend.userManagement.domain.model.aggregate.Users;
 import jakarta.persistence.*;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.Getter;
-import org.apache.catalina.User;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -22,7 +18,7 @@ public class Payments {
 
     @OneToOne
     @JoinColumn(name = "rental_id",nullable = false)
-    private Rentals rentalId;
+    private Reservations rentalId;
 
     @ManyToOne
     @JoinColumn(name = "user_id",nullable = false)
