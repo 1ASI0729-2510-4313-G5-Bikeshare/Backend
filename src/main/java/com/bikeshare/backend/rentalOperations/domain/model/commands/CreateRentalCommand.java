@@ -7,7 +7,7 @@ import org.apache.catalina.User;
 
 public record CreateRentalCommand(
         Bikes bikeId,
-        Users clientId,
+        Users renterId,
         String startTime,
         String endTime,
         RentalStatus statusId,

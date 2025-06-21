@@ -24,8 +24,8 @@ public class Rentals {
     private Bikes bikeId;
 
     @ManyToOne
-    @JoinColumn(name = "client_id",nullable = false)
-    private Users clientId;
+    @JoinColumn(name = "renter_id",nullable = false)
+    private Users rentertId;
 
     @Column(nullable = true)
     private String startTime;
@@ -50,7 +50,7 @@ public class Rentals {
 
     public Rentals(CreateRentalCommand command) {
         this.bikeId= command.bikeId();
-        this.clientId= command.clientId();
+        this.rentertId= command.renterId();
         this.startTime= command.startTime();
         this.endTime= command.endTime();
         this.price= command.price();
